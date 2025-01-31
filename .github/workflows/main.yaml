@@ -30,7 +30,6 @@ jobs:
       - name: Build and push multi-architecture images
         uses: docker/build-push-action@v6
         with:
-          context: .
           build-args: |
             DEBIAN_VERSION=${{ env.DEBIAN_VERSION }}
             PHP_VERSION=${{ env.PHP_VERSION }}
