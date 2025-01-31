@@ -5,7 +5,7 @@ PHP with extensions required for [CakePHP 4](https://book.cakephp.org/4/en/insta
 This image may be used directly for development or as a base for deploying an existing application.  In both cases it is assumed a MySQL server is needed by the application.
 
 # Using as a development container
-This section describes how to maunally create a development container.  For a simpler docker-compose deployment for an existing CakePHP project, see later in this guide.
+This section describes how to manually create a development container.  For a simpler docker-compose deployment for an existing CakePHP project, see later in this guide.
 ## Creating a Docker network
 In order for the CakePHP container to be able to resolve the MySQL container by hostname, both containers need to be on the same Docker network.
 ```shell
@@ -22,7 +22,7 @@ docker run -d \
        -e MYSQL_DATABASE=cake \
        -e MYSQL_USER=cake \
        -e MYSQL_PASSWORD=cake \
-       mysql:5.7.31
+       mysql:8
 ```
 The `-d` flag will start the container in detached mode and logs will not be displayed in the terminal, though are still available with:
 ```shell
@@ -45,7 +45,7 @@ docker run -it \
        -e DEBUG=true \
        -e SECURITY_SALT=abc123 \
        -e DATABASE_URL="mysql://cake:cake@my-app-mysql/cake?encoding=utf8mb4&timezone=UTC&cacheMetadata=true&quoteIdentifiers=false&persistent=false" \
-       voquis/cakephp:8.1.20-apache-buster \
+       voquis/cakephp:8.2.27-apache-buster \
        bash
 ```
 
@@ -69,7 +69,7 @@ The application will be available at http://127.0.0.1:2531 on the host machine.
 Create a `Dockerfile` in the root of your existing CakePHP directory with the following content:
 
 ```dockerfile
-FROM voquis/cakephp:8.1.20-apache-buster
+FROM voquis/cakephp:8.2.27-apache-buster
 
 # Copy application and config files
 COPY . .
@@ -110,7 +110,7 @@ version: "3.7"
 services:
   # MySQL database container
   my-app-mysql:
-    image: "mysql:5.7.31"
+    image: "mysql:8"
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: "cake"
@@ -125,7 +125,7 @@ services:
     ]
   # CakePHP development container
   my-app-cakephp:
-    image: "voquis/cakephp:8.1.20-apache-buster"
+    image: "voquis/cakephp:8.2.27-apache-buster"
     environment:
       DATABASE_URL: "mysql://cake:cake@my-app-mysql/cake?encoding=utf8mb4&timezone=UTC&cacheMetadata=true&quoteIdentifiers=false&persistent=false"
       DEBUG: "false"
